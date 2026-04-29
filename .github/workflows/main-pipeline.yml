@@ -24,6 +24,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      - name: Debug output
+        run: echo "IMAGE = ${{ needs.docker.outputs.image_latest }}"
+        
       - name: Scan Docker Image
         uses: aquasecurity/trivy-action@v0.20.0
         with:
