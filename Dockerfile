@@ -1,18 +1,22 @@
 # -------- Stage 1: Builder --------
-  FROM node:18-alpine AS builder
+  FROM node:20-alpine AS builder
   
   WORKDIR /app
   
+  RUN apk update && apk upgrade --no-cache
+
   COPY package.json ./
   RUN npm install
   
   COPY . .
 
 # -------- Stage 2: Final --------
-  FROM node:18-alpine
+  FROM node:20-alpine
   
   WORKDIR /app
   
+  RUN apk update && apk upgrade --no-cache
+
   # Create non-root user
   RUN adduser -D appuser
   

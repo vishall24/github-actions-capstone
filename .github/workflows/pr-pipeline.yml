@@ -17,4 +17,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: echo "PR checks passed for branch ${{ github.head_ref }}"
+
+     - name: Check Dependencies for Vulnerabilities
+       uses: actions/dependency-review-action@v4
+       with:
+         fail-on-severity: critical
+       env:
+        AWS_SECRET_ACCESS_KEY: "anbccw3432_sr"
+
+     - run: echo "PR checks passed for branch ${{ github.head_ref }}"

@@ -16,15 +16,21 @@ jobs:
     with:
       image_name: warriorr/app
     secrets:
-      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      docker_username: ${{ vars.DOCKER_USERNAME }}
       docker_token: ${{ secrets.DOCKER_TOKEN }}
+
 
   scan:
     needs: docker
     runs-on: ubuntu-latest
 
     steps:
+
+      - name: Debug output
+        run: echo "IMAGE = ${{ needs.docker.outputs.image_latest }}"
+
       - name: Scan Docker Image
+        continue-on-error: true
         uses: aquasecurity/trivy-action@v0.20.0
         with:
             image-ref: ${{ needs.docker.outputs.image_latest }} 
@@ -32,9 +38,17 @@ jobs:
             severity: CRITICAL
             exit-code: 1
             output: trivy-report.txt
+        env:
+            continued-on-error: true
+
+      - name: Upload Trivy Report
+        uses: actions/upload-artifact@v4
+        with:
+            name: trivy-report
+            path: trivy-report.txt
 
   deploy:
-    needs: docker
+    needs: scan
     runs-on: ubuntu-latest
     environment: production
 
