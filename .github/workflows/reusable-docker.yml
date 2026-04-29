@@ -49,16 +49,4 @@ jobs:
         run: |
           echo "latest=${{ inputs.image_name }}:latest" >> $GITHUB_OUTPUT
           echo "sha=${{ inputs.image_name }}:sha-${SHA_SHORT}" >> $GITHUB_OUTPUT
-          cat $GITHUB_OUTPUT
-
-      - name: Debug step output
-        run: |
-            echo "LATEST = ${{ steps.meta.outputs.latest }}"
-            echo "SHA = ${{ steps.meta.outputs.sha }}"
-            
-      - name: Debug job output
-        run: |
-            echo "LATEST = ${{ needs.docker.outputs.image_latest }}"
-            echo "SHA = ${{ needs.docker.outputs.image_sha }}"
-
           
