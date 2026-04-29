@@ -27,7 +27,7 @@ jobs:
       - name: Scan Docker Image
         uses: aquasecurity/trivy-action@v0.20.0
         with:
-            image-ref: my-image:latest 
+            image-ref: ${{ needs.docker.outputs.image_latest }} 
             format: table
             severity: CRITICAL
             exit-code: 1
