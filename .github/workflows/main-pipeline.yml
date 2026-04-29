@@ -39,7 +39,7 @@ jobs:
             output: trivy-report.txt
 
   deploy:
-    needs: docker
+    needs: scan
     runs-on: ubuntu-latest
     environment: production
 
