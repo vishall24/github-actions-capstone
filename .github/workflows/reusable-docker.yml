@@ -49,5 +49,6 @@ jobs:
         run: |
           echo "latest=${{ inputs.image_name }}:latest" >> $GITHUB_OUTPUT
           echo "sha=${{ inputs.image_name }}:sha-${SHA_SHORT}" >> $GITHUB_OUTPUT
+          cat $GITHUB_OUTPUT
 
           
