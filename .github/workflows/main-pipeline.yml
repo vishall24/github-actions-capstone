@@ -27,11 +27,12 @@ jobs:
       - name: Scan Docker Image
         uses: aquasecurity/trivy-action@v0.20.0
         with:
-          image-ref: ${{ needs.docker.outputs.image_latest }}
-          format: 'table'
-          severity: 'CRITICAL'
-          exit-code: '1'
-          output: 'trivy-report.txt'
+            image-ref: my-image:latest 
+            format: table
+            severity: CRITICAL
+            exit-code: 1
+            output: trivy-report.txt
+
   deploy:
     needs: docker
     runs-on: ubuntu-latest
