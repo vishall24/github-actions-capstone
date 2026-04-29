@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
 
+
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   test:
     uses: ./.github/workflows/reusable-build-test.yml
@@ -34,18 +39,16 @@ jobs:
         uses: aquasecurity/trivy-action@v0.20.0
         with:
             image-ref: ${{ needs.docker.outputs.image_latest }} 
-            format: table
+            format: sarif
             severity: CRITICAL
             exit-code: 1
-            output: trivy-report.txt
+            output: trivy-results.sarif
         env:
             continued-on-error: true
 
-      - name: Upload Trivy Report
-        uses: actions/upload-artifact@v4
+      - uses: github/codeql-action/upload-sarif@v3
         with:
-            name: trivy-report
-            path: trivy-report.txt
+            sarif_file: trivy-results.sarif
 
   deploy:
     needs: scan
