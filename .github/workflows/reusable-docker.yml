@@ -31,7 +31,7 @@ jobs:
       - name: Login Docker
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.docker_username }}
+          username: ${{ vars.docker_username }}
           password: ${{ secrets.docker_token }}
 
       - name: Build images

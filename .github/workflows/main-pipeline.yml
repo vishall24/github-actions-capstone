@@ -16,7 +16,7 @@ jobs:
     with:
       image_name: warriorr/app
     secrets:
-      docker_username: ${{ secrets.DOCKER_USERNAME }}
+      docker_username: ${{ vars.DOCKER_USERNAME }}
       docker_token: ${{ secrets.DOCKER_TOKEN }}
 
   scan:
@@ -27,7 +27,7 @@ jobs:
 
       - name: Debug output
         run: echo "IMAGE = ${{ needs.docker.outputs.image_latest }}"
-        
+
       - name: Scan Docker Image
         uses: aquasecurity/trivy-action@v0.20.0
         with:
