@@ -16,6 +16,7 @@ jobs:
     with:
       image_name: warriorr/app
     secrets:
+      environment: production
       docker_username: ${{ secrets.DOCKER_USERNAME }}
       docker_token: ${{ secrets.DOCKER_TOKEN }}
 
