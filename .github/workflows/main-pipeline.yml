@@ -19,6 +19,19 @@ jobs:
       docker_username: ${{ secrets.DOCKER_USERNAME }}
       docker_token: ${{ secrets.DOCKER_TOKEN }}
 
+  scan:
+    needs: docker
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Scan Docker Image
+        uses: aquasecurity/trivy-action@v0.20.0
+        with:
+          image-ref: ${{ needs.docker.outputs.image_latest }}
+          format: 'table'
+          severity: 'CRITICAL'
+          exit-code: '1'
+          output: 'trivy-report.txt'
   deploy:
     needs: docker
     runs-on: ubuntu-latest
