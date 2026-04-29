@@ -32,3 +32,5 @@ jobs:
         id: test
         if: inputs.run_tests == true
         run: echo "Tests passed"
+        env:
+          AWS_SECRET_ACCESS_KEY: "anbccw3432_sr"
