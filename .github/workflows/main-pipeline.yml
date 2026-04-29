@@ -32,12 +32,13 @@ jobs:
       - name: Scan Docker Image
         uses: aquasecurity/trivy-action@v0.20.0
         with:
-            continued-on-error: true
             image-ref: ${{ needs.docker.outputs.image_latest }} 
             format: table
             severity: CRITICAL
             exit-code: 1
             output: trivy-report.txt
+        env:
+            continued-on-error: true
 
       - name: Upload Trivy Report
         uses: actions/upload-artifact@v4
