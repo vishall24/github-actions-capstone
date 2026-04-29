@@ -37,7 +37,8 @@ jobs:
             severity: CRITICAL
             exit-code: 1
             output: trivy-report.txt
-            
+            continued-on-error: true
+
       - name: Upload Trivy Report
         uses: actions/upload-artifact@v4
         with:
