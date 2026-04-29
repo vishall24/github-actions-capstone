@@ -14,10 +14,11 @@ jobs:
     needs: test
     uses: ./.github/workflows/reusable-docker.yml
     with:
-      image_name: ${{ needs.docker.outputs.image_latest }}"
+      image_name: warriorr/app
     secrets:
       docker_username: ${{ vars.DOCKER_USERNAME }}
       docker_token: ${{ secrets.DOCKER_TOKEN }}
+
 
   scan:
     needs: docker
@@ -26,7 +27,7 @@ jobs:
     steps:
 
       - name: Debug output
-        run: echo "IMAGE = ${{ needs.docker.docker.outputs.image_latest }}"
+        run: echo "IMAGE = ${{ needs.docker.outputs.image_latest }}"
 
       - name: Scan Docker Image
         uses: aquasecurity/trivy-action@v0.20.0
