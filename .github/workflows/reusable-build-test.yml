@@ -25,7 +25,8 @@ jobs:
         with:
           node-version: ${{ inputs.node_version }}
 
-      - run: npm install
+      - name: Install dependencies
+        run: npm install
 
       - name: Run tests
         id: test
