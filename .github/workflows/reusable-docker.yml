@@ -11,6 +11,11 @@ on:
         required: true
       docker_token:
         required: true
+    outputs:
+      image_latest:
+        value: ${{ jobs.docker.outputs.image_latest }}
+      image_sha:
+        value: ${{ jobs.docker.outputs.image_sha }}
 
 jobs:
   docker:

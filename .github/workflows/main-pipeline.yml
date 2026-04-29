@@ -14,7 +14,7 @@ jobs:
     needs: test
     uses: ./.github/workflows/reusable-docker.yml
     with:
-      image_name: warriorr/app
+      image_name: ${{ needs.docker.outputs.image_latest }}"
     secrets:
       docker_username: ${{ vars.DOCKER_USERNAME }}
       docker_token: ${{ secrets.DOCKER_TOKEN }}
