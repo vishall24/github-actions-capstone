@@ -1,0 +1,50 @@
+name: Docker Build Push
+
+on:
+  workflow_call:
+    inputs:
+      image_name:
+        required: true
+        type: string
+    secrets:
+      docker_username:
+        required: true
+      docker_token:
+        required: true
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+
+    outputs:
+      image_latest: ${{ steps.meta.outputs.latest }}
+      image_sha: ${{ steps.meta.outputs.sha }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract short SHA
+        id: vars
+        run: echo "SHA_SHORT=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
+
+      - name: Login Docker
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.docker_username }}
+          password: ${{ secrets.docker_token }}
+
+      - name: Build images
+        run: |
+          docker build -t ${{ inputs.image_name }}:latest .
+          docker build -t ${{ inputs.image_name }}:sha-${SHA_SHORT} .
+
+      - name: Push images
+        run: |
+          docker push ${{ inputs.image_name }}:latest
+          docker push ${{ inputs.image_name }}:sha-${SHA_SHORT}
+
+      - name: Set outputs
+        id: meta
+        run: |
+          echo "latest=${{ inputs.image_name }}:latest" >> $GITHUB_OUTPUT
+          echo "sha=${{ inputs.image_name }}:sha-${SHA_SHORT}" >> $GITHUB_OUTPUT
